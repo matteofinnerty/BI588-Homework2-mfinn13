@@ -99,3 +99,5 @@ barplot(simulation104, xlim = c(0,30), xlab = "Number of Calls", ylab = "Frequen
   c. q(shortened name of distribution): calculates quantiles (essentially sections of the distribution that contain a certain proportion of the data) from the distribution.
   d. r(shortened name of distribution): generates random numbers from the distribution.
 3. I couldn't figure out how to get units on the barplot for part 6. I don't fully understand the names.arg function. 
+4. In terms of actual coding, I didn't think this HW was terribly challenging, because there are existing functions for everything that we had to do. 
+5. I still don't fully understand what the poisson distribution is. I understand that we use it for count data, but could we have used a normal distribution too? The barplot from part 4 looks normally distributed anyways. I guess then we would need to know the variance though. 
