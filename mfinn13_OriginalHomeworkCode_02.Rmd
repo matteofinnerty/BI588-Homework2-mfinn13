@@ -1,0 +1,100 @@
+---
+title: "mfinn13_OriginalHomeworkCode_02"
+output: html_document
+date: "2025-02-12"
+---
+
+**Homework Assignment #2**
+
+Every Saturday morning, at the same time, a primatologist goes and sits in the forest to listen for titi monkey calls, counting the number of calls they hear in a 2 hour window from 5am to 7am. Based on previous knowledge, she believes that the mean number of calls she will hear in that time is exactly 15. Let X represent the appropriate Poisson random variable of the number of calls heard in each monitoring session.
+
+1. What is the probability that she will hear more than 8 calls during any given session?
+2. What is the probability that she will hear no calls in a session?
+3. What is the probability that she will hear exactly 3 calls in a session?
+4. Plot the relevant Poisson mass function over the values in range 0 ≤ x ≤ 30.
+5. Simulate 104 results from this distribution (i.e., 2 years of Saturday monitoring sessions).
+6. Plot the simulated results using hist() and use xlim() to set the horizontal limits to be from 0 to 30. How does your histogram compare to the shape of the probability       mass function you plotted above?
+
+**Starting Notes**
+- We are dealing with a poisson distribution
+- We are dealing with a discrete random variable
+- The mean is equal to 15.
+- Because this is a poisson distribution, the variance is equal to 15 as well. 
+- The SD is equal to sq. root (15)
+- The PMF for poisson distributions is pr(X=x) = ((mean^x)(e^-mean))/(x factorial). This has a function dpois().
+- The cumulative distribution function (the probability of observing up to and including a specific number of events in the given interval) has a function ppois(). It takes two arguments (the value at which to evaluate the CDF and the mean of the distribution) 
+
+**Part 1: What is the probability that she will hear more than 8 calls during any given session?**
+```{r}
+#Because we are looking at pr(X>x) rather than pr(X=x) we need to use the cumulative distribution function as opposed to the probability mass function.
+#There is a built in R function which does this. It is ppois(the value at which to evaluate the CDF, and the mean). The function returns the probability that X is less than or equal to x. Therefore, afterwards we need to do (1 - the output of this function).
+
+x <- 8
+mean <- 15
+#the number of calls we are interested in, and the mean number of calls.
+
+probLessThanOrEqualTo8 <- ppois(x, mean)
+#this returns the probability that X (the number of observed calls) is less than or equal to 8.
+
+probGreaterThan8 <- 1-probLessThanOrEqualTo8
+#Now we subtract from 1 to get the probability that X>8
+
+probGreaterThan8
+#After executing this code, our answer is 0.9625. This is the probability that the researcher hears more than 8 calls.
+```
+
+**Part 2: What is the probability that she will hear no calls in a session**
+```{r}
+#For this one, we are looking at the probability that X takes on a specific value. Therefore, we can use the PMF function, which is dpois(number of calls, mean).
+probOf0Calls <- dpois(0, 15)
+probOf0Calls
+#We get a very small number. 3.06 e-07 or roughly 0.000000306. Therefore it is highly unlikely that the researcher would not hear any calls
+```
+
+**Part 3: What is the probability that she will hear exactly 3 calls in a session?**
+```{r}
+#Similarly to part 2, we are looking for the probability that X takes on an exact number. Therefore we will use the PMF for the poisson distribution again, which has a function in R that is dpois().
+
+probExactly3Calls <- dpois(3, 15)
+probExactly3Calls
+
+#The value turns out to be also quite small: 0.00017.
+```
+
+**Part 4: Plot the relevant Poisson mass function over the values in range 0 ≤ x ≤ 30.**
+```{r}
+#For plotting the probability mass function for this poisson distribution, there is an example in Module 8 that is very similar, and it is quite intuitive.
+
+range <- 0:30
+#range gets 0-30. We already defined an object for the mean, which holds the value 15.
+
+pmf <- dpois(range, mean)
+barplot(pmf, names.arg = range, xlab = "Number of Calls", ylab = "Probability of Occurence", main = "Probability of Titi Monkey Calls")
+#This makes a barplot of the probabilities of different numbers of calls. The names.arg = range is important, it essentially puts units on the x axis by naming each bar. 
+
+```
+
+**Part 5: Simulate 104 results from this distribution (i.e., 2 years of Saturday monitoring sessions).**
+```{r}
+#similarly to the rnorm function, there exists an rpois function for simulating/getting random outcomes from a distribution.
+
+simulation104 <- rpois(104, 15)
+#the rpois() function takes two arguments. the first is the number of trials, and the second is the mean (represented by the greek letter lambda).
+#simulates 104 saturday mornings of observation, where the mean number of calls is 15. 
+```
+
+**Part 6:Plot the simulated results using hist() and use xlim() to set the horizontal limits to be from 0 to 30. How does your histogram compare to the shape of the            probability mass function you plotted above?**
+```{r}
+barplot(simulation104, xlim(0,30))
+
+
+
+```
+
+**Challenges**
+1. At first I was like there is no way we have enough to work with because we were only given the mean. But it turns out that the mean and variance are equal in the poisson distribution, which is enough to calculate various functions like PMF and CDF (though R does the calculations for us).
+2. I was overwhelmed by all the statistics jargon and the number of different distributions as well as different functions. One thing I learned/memorized while doing this HW is that for each distribution there are 4 useful functions. 
+  a. d(shortened name of distribution): calculates the CDF from the distribution (the probability that X is less than or equal to x)
+  b. p(shortened name of distribution): calculates the PMF from the distribution (the probability that X=x)
+  c. q(shortened name of distribution): calculates quantiles (essentially sections of the distribution that contain a certain proportion of the data) from the distribution.
+  d. r(shortened name of distribution): generates random numbers from the distribution.
