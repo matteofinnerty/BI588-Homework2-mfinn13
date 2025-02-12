@@ -85,10 +85,10 @@ simulation104 <- rpois(104, 15)
 
 **Part 6:Plot the simulated results using hist() and use xlim() to set the horizontal limits to be from 0 to 30. How does your histogram compare to the shape of the            probability mass function you plotted above?**
 ```{r}
-barplot(simulation104, xlim(0,30))
+barplot(simulation104, xlim = c(0,30), xlab = "Number of Calls", ylab = "Frequency")
 
-
-
+#creates a barplot from the 104 simulations, limits the data so that it only includes trials that heard between 0 and 30 calls.
+#I couldn't figure out how to get units on this one
 ```
 
 **Challenges**
@@ -98,3 +98,4 @@ barplot(simulation104, xlim(0,30))
   b. p(shortened name of distribution): calculates the PMF from the distribution (the probability that X=x)
   c. q(shortened name of distribution): calculates quantiles (essentially sections of the distribution that contain a certain proportion of the data) from the distribution.
   d. r(shortened name of distribution): generates random numbers from the distribution.
+3. I couldn't figure out how to get units on the barplot for part 6. I don't fully understand the names.arg function. 
